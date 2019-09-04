@@ -1,25 +1,41 @@
 package id.compunerd.physicslist
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 class ListSainsAdapter(private val listSains: ArrayList<Sains>) : RecyclerView.Adapter<ListSainsAdapter.ListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_row_physics, parent, false)
+        return ListViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return listSains.size
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val (name, detail, photo) = listSains[position]
+
+        Glide.with(holder.itemView.context)
+            .load(photo)
+            .apply(RequestOptions())
+            .into(holder.imgPhoto)
+
+        holder.tvName.text = name
+        holder.tvDetail.text = detail
     }
 
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
+        var tvDetail: TextView = itemView.findViewById(R.id.tv_item_detail)
+        var imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
     }
 
 }
