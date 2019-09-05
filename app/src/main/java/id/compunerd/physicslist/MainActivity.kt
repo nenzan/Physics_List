@@ -3,6 +3,7 @@ package id.compunerd.physicslist
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -24,12 +25,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRecyclerList() {
         rvHeroes.layoutManager = LinearLayoutManager(this)
-        val listHeroAdapter = ListSainsAdapter(list)
-        rvHeroes.adapter = listHeroAdapter
+        val listSainsAdapter = ListSainsAdapter(list)
+        rvHeroes.adapter = listSainsAdapter
+
+        listSainsAdapter.setOnItemClickCallback(object : ListSainsAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Sains) {
+                selectedItem(data)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.about_me, menu)
         return true
+    }
+
+    private fun selectedItem(sains: Sains) {
+        Toast.makeText(this, "You Choice " + sains.name, Toast.LENGTH_SHORT).show()
     }
 }
