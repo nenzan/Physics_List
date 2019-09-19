@@ -1,5 +1,6 @@
 package id.compunerd.physicslist
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +13,6 @@ import com.bumptech.glide.request.RequestOptions
 
 class ListSainsAdapter(private val listSains: ArrayList<Sains>) :
     RecyclerView.Adapter<ListSainsAdapter.ListViewHolder>() {
-
-    private lateinit var onItemClickCallback: OnItemClickCallback
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view: View =
@@ -39,19 +34,20 @@ class ListSainsAdapter(private val listSains: ArrayList<Sains>) :
 
         holder.tvName.text = name
         holder.tvDetail.text = detail
-
-        holder.itemView.setOnClickListener { onItemClickCallback.onItemClicked(listSains[holder.adapterPosition]) }
     }
 
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, AboutActivity::class.java)
+                itemView.context.startActivity(intent)
+            }
+        }
+
         var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         var tvDetail: TextView = itemView.findViewById(R.id.tv_item_detail)
         var imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Sains)
     }
 
 }

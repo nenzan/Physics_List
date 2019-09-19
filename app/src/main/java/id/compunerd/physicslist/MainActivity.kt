@@ -27,12 +27,6 @@ class MainActivity : AppCompatActivity() {
         rvHeroes.layoutManager = LinearLayoutManager(this)
         val listSainsAdapter = ListSainsAdapter(list)
         rvHeroes.adapter = listSainsAdapter
-
-        listSainsAdapter.setOnItemClickCallback(object : ListSainsAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Sains) {
-                selectedItem(data)
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
