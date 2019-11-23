@@ -14,6 +14,12 @@ import com.bumptech.glide.request.RequestOptions
 class ListSainsAdapter(private val listSains: ArrayList<Sains>) :
     RecyclerView.Adapter<ListSainsAdapter.ListViewHolder>() {
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.item_row_physics, parent, false)
@@ -34,20 +40,30 @@ class ListSainsAdapter(private val listSains: ArrayList<Sains>) :
 
         holder.tvName.text = name
         holder.tvDetail.text = detail
+
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClick(listSains[holder.adapterPosition])
+            val intent = Intent(it.context, DetailSainsActivity::class.java)
+            intent.putExtra("name", name)
+            intent.putExtra("email", detail)
+            it.context.startActivity(intent)
+        }
     }
 
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
-                val intent = Intent(itemView.context, AboutActivity::class.java)
+                val intent = Intent(itemView.context, DetailSainsActivity::class.java)
                 itemView.context.startActivity(intent)
             }
         }
-
         var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
         var tvDetail: TextView = itemView.findViewById(R.id.tv_item_detail)
         var imgPhoto: ImageView = itemView.findViewById(R.id.img_item_photo)
     }
 
+    interface OnItemClickCallback {
+        fun onItemClick(data: Sains)
+    }
 }
